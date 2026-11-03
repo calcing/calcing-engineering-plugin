@@ -1,0 +1,25 @@
+{
+  "name": "calcing-engineering",
+  "displayName": "CalcIng Engineering",
+  "version": "0.1.0",
+  "description": "Mechanical engineering calculations from a conversation: Claude checks your inputs, runs the calcing calculation apps on saas.calcing.de (shafts, keys, bolted joints, rolling bearings, gears, fits and more) and reports the result with its warnings and provenance.",
+  "author": {
+    "name": "CalcIng - Müller Engineering Solutions GmbH",
+    "url": "https://saas.calcing.de/"
+  },
+  "homepage": "https://saas.calcing.de/?ki",
+  "license": "MIT",
+  "keywords": [
+    "mechanical-engineering",
+    "calculation",
+    "machine-elements",
+    "din",
+    "iso",
+    "vdi"
+  ],
+  "icon": "./assets/icon.png",
+  "documentationUrl": "https://saas.calcing.de/?ki",
+  "supportUrl": "https://saas.calcing.de/?ki",
+  "privacyPolicyUrl": "https://saas.calcing.de/?legal=privacy",
+  "termsOfServiceUrl": "https://saas.calcing.de/?legal=terms"
+}

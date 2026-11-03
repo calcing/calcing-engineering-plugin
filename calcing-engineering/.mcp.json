@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "calcing": {
+      "type": "http",
+      "url": "https://saas.calcing.de/mcp"
+    }
+  }
+}
