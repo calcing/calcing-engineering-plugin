@@ -6,7 +6,7 @@ Claude how to use them: find the right app, clarify missing inputs and units wit
 check the inputs, calculate, and report the app's result together with its warnings and provenance.
 
 The numbers come from the calcing apps on our server, not from Claude. If a calculation cannot run
-(not signed in, plan or quota, invalid input, server error), the skills tell Claude to report the
+(not signed in, no plan, invalid input, server error), the skills tell Claude to report the
 error and not to replace the result with an estimate of its own.
 
 ## What is included
@@ -33,19 +33,21 @@ error and not to replace the result with an estimate of its own.
 Connecting opens saas.calcing.de in your browser. Sign in with your calcing account (or register).
 A consent page then asks **"Allow access for <platform>?"**, shows the provider, your account and
 the list of actions the platform may perform on your behalf (for example "check inputs" or
-"calculate" per app), and notes that requests count towards your quota. Select **Allow** to finish;
+"calculate" per app), and notes that calculations through the platform use no credits. Select
+**Allow** to finish;
 you are returned to Claude. Without signing in, the connector offers no tools.
 
 ### Who can use it, and what it costs
 
 - Anyone using Claude can install the plugin. Installing it is free.
 - Calculations need a calcing account on saas.calcing.de: you sign in when you connect the connector.
-- New accounts can try the connection with the first sign-in credit. Once it is used up or has
-  expired, further calculations need a paid plan, **Basic** or higher. Calculations through Claude are
-  charged to your account's plan (terms, section 10). Plans:
+- Calculations through Claude **use no credits**. They require a plan, **Basic** or higher; there is
+  no separate quota for AI platforms (terms, section 10 (2)). Plans:
   [saas.calcing.de/?plans=1](https://saas.calcing.de/?plans=1).
-- When the credit or plan does not cover a calculation, the tool answers with an error (for example
-  `trial_exhausted` or `quota_exhausted`) and Claude reports it; nothing is calculated or estimated.
+- New accounts can try the connection while their first sign-in credit is valid and not used up;
+  calculations through Claude do not use it. After that, further calculations need a plan.
+- Without a valid first sign-in credit or plan, the tool answers with the error `trial_exhausted`
+  (with a link to the plan overview) and Claude reports it; nothing is calculated or estimated.
 
 ## Example requests
 
@@ -117,7 +119,8 @@ Das Plugin verbindet Claude mit den Berechnungs-Apps von saas.calcing.de. Claude
 passende App, klärt fehlende Eingaben und Einheiten mit Ihnen, lässt die App prüfen und rechnen und
 gibt deren Ergebnis mit Warnungen und Herkunft wieder — ohne eigene Schätzwerte. Anmeldung mit Ihrem
 calcing-Konto (OAuth). Installieren kann jeder Claude-Nutzer; gerechnet wird nur mit Anmeldung und Plan
-(Testphase mit dem Erstanmeldungs-Guthaben, danach kostenpflichtig ab Basic). Lizenz der Plugin-Dateien:
+(Testphase mit dem Erstanmeldungs-Guthaben, danach ab Plan Basic); Rechnungen über Claude
+verbrauchen keine Credits. Lizenz der Plugin-Dateien:
 MIT; Name und Logo „CalcIng“ sind nicht Teil der Lizenz. Widerruf unter
 **API & Skills → Verbundene KI-Plattformen**. Datenschutz: Abschnitt 2.8, AGB: § 10. Kontakt:
 info@calcing.de.

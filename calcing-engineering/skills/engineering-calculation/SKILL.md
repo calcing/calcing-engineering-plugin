@@ -77,7 +77,7 @@ observed or documented for this server:
 |---|---|---|
 | `sign_in_required`, `token_missing`, `token_invalid`, `token_revoked`, `unauthorized` | Not signed in, or the connection was revoked | Ask the user to connect or reconnect the calcing connector (sign in with their calcing account) |
 | `trial_exhausted` | The first sign-in credit is used up or expired | Tell the user; pass on the `upgrade_url` from the answer unchanged, if present. Do not promote a plan |
-| `quota_exhausted` | The monthly request quota of the account is used up | Tell the user; do not retry. Point to support (info@calcing.de) if they believe their plan should cover it |
+| `credits_exhausted` | The credit balance does not cover a batch run (single calculations use no credits) | Tell the user; do not retry. Pass on the `upgrade_url` unchanged, if present. Do not promote a plan |
 | `ai_solve_not_enabled`, `ai_tokens_not_enabled`, `forbidden` | The account's plan does not allow this | Tell the user |
 | `scope_missing` | The connection was granted without this action | Ask the user to reconnect and grant the requested access |
 | `rate_limited` | Too many requests | Wait `retry_after_seconds` before one retry |
