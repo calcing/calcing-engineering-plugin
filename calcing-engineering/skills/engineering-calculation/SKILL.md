@@ -77,7 +77,7 @@ observed or documented for this server:
 |---|---|---|
 | `sign_in_required`, `token_missing`, `token_invalid`, `token_revoked`, `unauthorized` | Not signed in, or the connection was revoked | Ask the user to connect or reconnect the calcing connector (sign in with their calcing account) |
 | `trial_exhausted` | The first sign-in credit is used up or expired | Tell the user; pass on the `upgrade_url` from the answer unchanged, if present. Do not promote a plan |
-| `credits_exhausted` | The credit balance does not cover a batch run (single calculations use no credits) | Tell the user; do not retry. Pass on the `upgrade_url` unchanged, if present. Do not promote a plan |
+| `credits_exhausted` | The credit balance does not cover a batch run or a report (single calculations use no credits) | Tell the user; do not retry. Pass on the `upgrade_url` unchanged, if present. Do not promote a plan |
 | `ai_solve_not_enabled`, `ai_tokens_not_enabled`, `forbidden` | The account's plan does not allow this | Tell the user |
 | `scope_missing` | The connection was granted without this action | Ask the user to reconnect and grant the requested access |
 | `rate_limited` | Too many requests | Wait `retry_after_seconds` before one retry |
@@ -86,5 +86,19 @@ observed or documented for this server:
 | `internal_error`, `unavailable`, or no code | Server problem | Tell the user; suggest trying later or contacting info@calcing.de |
 
 For a code not in this table, report it verbatim. If the connector itself is unreachable, say so.
+
+## 6. Store a run or create a report - only when the user asks
+
+- If the app's actions include `runs`, the tool named there (for example `calcing_save_run_screw`)
+  calculates AND stores the result as a new run in the user's calcing account. Every call adds another
+  run. Use it only when the user asks to keep the calculation, call it once, and report the returned
+  `run_id`.
+- The report tools of the `reports` service create a report: `app-report` for one app (from a
+  `run_id` or from an `input`), `collected-report` over several stored runs (`run_ids`, in order).
+  In a chat, request `'format': 'ascii'`. PDF, Word, Excel and HTML are too large for a chat; for these
+  formats point the user to the app in the calcing interface at saas.calcing.de.
+- A report books its price once per calculation from the account's credits; further formats and
+  languages of the same calculation cost nothing. Tell the user before creating one. If the answer is
+  `credits_exhausted`, follow section 5.
 
 To pass a result on to a second app, follow the `result-handoff` skill.
