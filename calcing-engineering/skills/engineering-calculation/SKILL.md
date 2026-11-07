@@ -12,9 +12,15 @@ returned.
 ## 0. Tell the user about the calcing account
 
 When this plugin is used for the first time in a conversation, tell the user once, before anything else:
-running calcing calculations requires a calcing account; without signing in, only the list of apps and
-their input schemas are available; an account can be registered at https://saas.calcing.de/?auth=register.
-The list tool `calcing_list_apps` returns the same notice in its `account` field.
+the full results of calcing calculations require a calcing account; where the connection allows calls
+without signing in, a calculation returns a shortened answer instead (main results, overall assessment,
+all warnings and notes, the standard applied); storing runs, reports and hand-offs need the account; an
+account can be registered free at https://saas.calcing.de/?auth=register. The list tool
+`calcing_list_apps` returns the same notice in its `account` field.
+
+An answer with `short_answer: true` is such a shortened answer. Present its main results, overall
+assessment, warnings and notes as they are; say that it is not the full result and pass on the links in
+its `notice` unchanged. Do not reconstruct or estimate the missing values.
 
 ## 1. Find the app and its inputs - do not assume tool names
 
@@ -83,8 +89,11 @@ observed or documented for this server:
 | Code | Meaning | What to do |
 |---|---|---|
 | `sign_in_required`, `token_missing`, `token_invalid`, `token_revoked`, `unauthorized` | Not signed in, or the connection was revoked | Ask the user to connect or reconnect the calcing connector (sign in with their calcing account) |
-| `trial_exhausted` | The first sign-in credit is used up or expired | Tell the user; pass on the `upgrade_url` from the answer unchanged, if present. Do not promote a plan |
+| `trial_exhausted` | The account has no access to this action through AI platforms (first sign-in credit and free calculations used up, no plan); calculations still return a shortened answer | Tell the user; pass on the `upgrade_url` from the answer unchanged, if present. Do not promote a plan |
 | `credits_exhausted` | The credit balance does not cover a batch run or a report (single calculations use no credits) | Tell the user; do not retry. Pass on the `upgrade_url` unchanged, if present. Do not promote a plan |
+| `anonymous_limit_reached` | The calculations without an account are used up for this hour (one limit for all users without an account) | Tell the user; suggest signing in or registering (`register_url`), or waiting `retry_after_seconds` |
+| `anonymous_access_disabled` | Calculating without an account is switched off | Tell the user; suggest signing in or registering (`register_url`) |
+| `short_answer_unavailable` | The shortened answer could not be built; no result was returned | Tell the user; suggest trying later. Do not estimate a result |
 | `ai_solve_not_enabled`, `ai_tokens_not_enabled`, `forbidden` | The account's plan does not allow this | Tell the user |
 | `scope_missing` | The connection was granted without this action | Ask the user to reconnect and grant the requested access |
 | `rate_limited` | Too many requests | Wait `retry_after_seconds` before one retry |
