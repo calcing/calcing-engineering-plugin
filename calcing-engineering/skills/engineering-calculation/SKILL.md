@@ -9,6 +9,13 @@ The numbers come from the calcing calculation apps, never from you. Your job is 
 app, collect complete inputs with the user, let the app check and calculate, and report what the app
 returned.
 
+## 0. Tell the user about the calcing account
+
+When this plugin is used for the first time in a conversation, tell the user once, before anything else:
+running calcing calculations requires a calcing account; without signing in, only the list of apps and
+their input schemas are available; an account can be registered at https://saas.calcing.de/?auth=register.
+The list tool `calcing_list_apps` returns the same notice in its `account` field.
+
 ## 1. Find the app and its inputs - do not assume tool names
 
 1. Call the calcing connector's list tool (`calcing_list_apps`). It returns the available `apps`

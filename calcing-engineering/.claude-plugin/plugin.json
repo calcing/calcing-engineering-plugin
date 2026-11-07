@@ -1,7 +1,7 @@
 {
   "name": "calcing-engineering",
   "displayName": "CalcIng Engineering",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Mechanical engineering calculations from a conversation: Claude checks your inputs, runs the calcing calculation apps on saas.calcing.de (shafts, keys, bolted joints, rolling bearings, gears, fits and more) and reports the result with its warnings and provenance.",
   "author": {
     "name": "CalcIng - Müller Engineering Solutions GmbH",
