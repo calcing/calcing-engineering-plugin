@@ -107,7 +107,7 @@ The plugin files (instructions, manifest, connector configuration) are licensed 
 [MIT License](LICENSE). The calcing service on saas.calcing.de is not part of this license; its use
 is governed by the terms of saas.calcing.de.
 
-**Trademarks:** the name and logo "CalcIng" / "calcing" (including `assets/icon.png`) are not
+**Trademarks:** the name and logo "CalcIng" / "calcing" (including the plugin icon) are not
 licensed under the MIT License. They may not be used to identify other products or services without
 written permission of CalcIng - Müller Engineering Solutions GmbH.
 

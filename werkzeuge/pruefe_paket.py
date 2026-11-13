@@ -30,6 +30,12 @@ RESERVIERT_GANZ = {"claude", "anthropic", "anthropics", "claude-code", "claude-m
 RESERVIERT_PRAEFIX = ("claude-", "anthropic-", "anthropics-", "cc-plugin-")
 SYSTEMDATEIEN = {".DS_Store", "Thumbs.db", "desktop.ini", "__MACOSX"}
 BILD_ENDUNGEN = {".png", ".jpg", ".jpeg", ".gif", ".webp"}
+SCHRIFT_ENDUNGEN = {".ttf", ".otf", ".woff", ".woff2"}
+# Portal 13.11.2026 (Version 846e61b, "Directory policy"): nennt eine Textdatei des Pakets eine
+# Bild- oder Schriftdatei, haelt das Verzeichnis die Version als "Image or font file that the
+# plugin's code could run" fest (gemeldet fuer README.md, das `assets/icon.png` nannte). Nur
+# plugin.json darf das Icon nennen - dort ist es das Verzeichnisfeld `icon`.
+DARF_ASSETS_NENNEN = {Path(".claude-plugin") / "plugin.json"}
 GEHEIMNIS_MUSTER = [
     re.compile(r"(?i)bearer\s+[a-z0-9._-]{20,}"),
     re.compile(r"eyJ[a-zA-Z0-9_-]{10,}\.[a-zA-Z0-9_-]{10,}"),  # JWT
@@ -158,6 +164,9 @@ def pruefe(ordner: Path) -> tuple[list[str], list[str], list[str]]:
     dateien = [p for p in ordner.rglob("*")]
     if len(dateien) > 512:
         blockiert.append(f"{len(dateien)} Eintraege > 512")
+    assets = {p.relative_to(ordner) for p in dateien
+              if p.is_file() and p.suffix.lower() in BILD_ENDUNGEN | SCHRIFT_ENDUNGEN}
+    asset_namen = {a.as_posix() for a in assets} | {a.name for a in assets}
     namen_klein: dict[str, Path] = {}
     for p in dateien:
         rel = p.relative_to(ordner)
@@ -188,6 +197,9 @@ def pruefe(ordner: Path) -> tuple[list[str], list[str], list[str]]:
         except UnicodeDecodeError:
             blockiert.append(f"{rel}: Binaerdatei, kein Bild")
             continue
+        genannt = sorted(n for n in asset_namen if n in text)
+        if genannt and rel not in DARF_ASSETS_NENNEN:
+            blockiert.append(f"{rel}: nennt Bild-/Schriftdatei {genannt} (Portal: Version bleibt angehalten)")
         for muster in GEHEIMNIS_MUSTER:
             if muster.search(text):
                 blockiert.append(f"{rel}: moegliches Geheimnis ({muster.pattern})")
